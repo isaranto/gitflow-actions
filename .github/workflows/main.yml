@@ -1,0 +1,19 @@
+- name: gitflow-action
+  # You may pin to the exact commit or the version.
+  # uses: Logerfo/gitflow-action@af600fbd8cd970fa53cc1bb632b33af7181a6110
+  uses: Logerfo/gitflow-action@0.0.4
+  with:
+    # The `GITHUB_TOKEN` secret.
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    # The `release` branch.
+    release: # optional, default is release
+    # The `dev` branch.
+    dev: develop
+    # The `master` branch.
+    master: # optional, default is master
+    # The pull request label.
+    label: # optional, default is gitflow
+    # If `true`, will try to automatically merge pull requests. Can also be set to `pull_request_review`, `check_run`, `push`, or a comma-separated combination of these values to only merge when handling the named events.
+    auto-merge: # optional, default is true
+    # If an attempted merge fails, the action is considered to have failed.
+    require-merge: # optional
