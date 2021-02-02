@@ -46,6 +46,7 @@ jobs:
           branch: release/${{ github.event.inputs.version }}
           base: master
           title: Release version ${{ github.event.inputs.version }}
+          delete-branch: true
           reviewers: ${{ github.actor }} # By default, we request a review from the person who triggered the workflow.
           labels: gitflow
           # Write a nice message to the user.
