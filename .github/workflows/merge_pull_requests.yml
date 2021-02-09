@@ -1,4 +1,4 @@
-name: Gitflow
+name: Merge pull request
 on: 
   # To create pull requests.
   push:
