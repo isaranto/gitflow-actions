@@ -1,0 +1,23 @@
+name: "Merge release branch to master"
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+
+jobs:
+  release:
+    name: Merge release branch
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.label.name == 'gitflow' # only PRs opened with the gitflow label will trigger this job
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+        git checkout master
+        gh pr merge release --merge
