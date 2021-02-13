@@ -1,4 +1,4 @@
-name: Create PR
+name: Create gitflow Release
 on:
   workflow_dispatch:
     inputs:
