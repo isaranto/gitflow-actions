@@ -1,3 +1,4 @@
+name: Create PR
 on:
   workflow_dispatch:
     inputs:
@@ -36,7 +37,6 @@ jobs:
         run: git push origin release/${{ github.event.inputs.version }}
       
       - name: Create pull request
-        uses: thomaseizinger/create-pull-request@1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create --title "The bug is fixed" --body "Everything works again" --label gitflow --base master --head release/${{ github.event.inputs.version }}
