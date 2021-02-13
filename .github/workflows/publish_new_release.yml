@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true # only merged pull requests must trigger this job
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Create release branch
+        run: git checkout master
+      
       - name: Extract version from branch name (for release branches)
         if: startsWith(github.event.pull_request.head.ref, 'release/')
         run: |
