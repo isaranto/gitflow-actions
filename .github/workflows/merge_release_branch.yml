@@ -3,7 +3,7 @@ name: "Merge release branch to master"
 on: 
   pull_request:
     branches: 
-      - master
+      - release
 
 jobs:
   merge-to-master:
