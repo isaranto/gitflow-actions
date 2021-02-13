@@ -4,9 +4,6 @@ on:
   pull_request:
     branches: 
       - master
-    types:
-      - opened
-      - labeled
 
 jobs:
   merge-to-master:
