@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create release branch
-        run: git checkout -b release
+        run: git checkout -b release/${{ github.event.inputs.version }}
 
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
@@ -34,7 +34,7 @@ jobs:
           git commit --message "Prepare release ${{ github.event.inputs.version }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Push new branch
-        run: git push origin release
+        run: git push origin release/${{ github.event.inputs.version }}
       
       - name: Create pull request release -> master
         env:
@@ -44,10 +44,11 @@ jobs:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}. \n \
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
-          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release         
+          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ github.event.inputs.version }}         
   
   merge-to-master:
     name: "Merge pull request to master"
+    needs: draft-new-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -56,5 +57,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git checkout master
-          gh pr merge release --merge
+          gh pr merge release/${{ github.event.inputs.version }} --merge
