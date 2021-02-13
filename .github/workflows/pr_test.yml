@@ -44,4 +44,4 @@ jobs:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}. \n \
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
-          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label gitflow --base master --head release         
+          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release         
