@@ -5,7 +5,7 @@ on:
     branches:
       - master
     types:
-      - labeled
+      - opened
 
 jobs:
   release:
@@ -19,5 +19,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-        git checkout master
-        gh pr merge release --merge
+          git checkout master
+          gh pr merge release --merge
