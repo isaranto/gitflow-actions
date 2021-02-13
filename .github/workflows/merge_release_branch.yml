@@ -13,8 +13,9 @@ jobs:
     name: Merge release branch
     runs-on: ubuntu-latest
     steps:
-      - name: Merge pull request
       - uses: actions/checkout@v2
+        
+      - name: Merge pull request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
