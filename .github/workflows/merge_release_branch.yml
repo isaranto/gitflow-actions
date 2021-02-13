@@ -5,13 +5,13 @@ on:
     branches:
       - master
     types:
-      - opened
+      - labeled
 
 jobs:
   release:
     name: Merge release branch
     runs-on: ubuntu-latest
-    if: github.event.pull_request.label.name == 'gitflow' # only PRs opened with the gitflow label will trigger this job
+    if: github.event.pull_request.label.name == 'release' # only PRs opened with the gitflow label will trigger this job
     steps:
       - uses: actions/checkout@v2
 
