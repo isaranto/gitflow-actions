@@ -1,4 +1,4 @@
-name: Create PR
+name: Create gitflow Release
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +8,7 @@ on:
         
 jobs:
   draft-new-release:
-    name: "Draft a new release"
+    name: "Create release branch + Bump Version"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,12 +27,14 @@ jobs:
       - name: Bump version in package.json
         run: |
           yarn version --new-version ${{ github.event.inputs.version }} --no-git-tag-version
+      
       - name: Commit changelog and manifest files
         id: make-commit
         run: |
           git add package.json
           git commit --message "Prepare release ${{ github.event.inputs.version }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
+      
       - name: Push new branch
         run: git push origin release/${{ github.event.inputs.version }}
       
@@ -47,7 +49,7 @@ jobs:
           gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ github.event.inputs.version }}         
   
   merge-to-master:
-    name: "Merge pull request to master"
+    name: "Merge PR release -> master"
     needs: draft-new-release
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge release/${{ github.event.inputs.version }} --merge
+          gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
   release:
     name: Publish new release
     needs: merge-to-master
@@ -95,7 +97,16 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} master -> develop" --body "$body" --label gitflow --base develop --head master
       
+      
+  merge-to-develop:
+    name: "Merge master -> develop"
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
       - name: Merge master in develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge master --merge
+        run: |
+          gh pr merge master --merge
