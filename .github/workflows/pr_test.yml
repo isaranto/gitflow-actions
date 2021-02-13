@@ -46,7 +46,7 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label gitflow --base master --head release/${{ github.event.inputs.version }}          
         
-#       - name: Merge pull request
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         run: gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge release/${{ github.event.inputs.version }} --merge
