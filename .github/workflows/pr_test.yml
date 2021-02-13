@@ -45,3 +45,16 @@ jobs:
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release         
+  
+  merge-to-master:
+    name: "Merge pull request to master"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git checkout master
+          gh pr merge release --merge
