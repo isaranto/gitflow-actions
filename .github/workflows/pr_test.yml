@@ -45,3 +45,4 @@ jobs:
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "The bug is fixed" --body "$body" --label gitflow --base master --head release/${{ github.event.inputs.version }}
+          gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
