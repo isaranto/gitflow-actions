@@ -59,6 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          gh pr review --approve
           gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
   release:
     name: Publish new release
@@ -108,4 +109,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          gh pr review --approve
           gh pr merge master --merge
