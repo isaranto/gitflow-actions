@@ -1,13 +1,7 @@
 name: "Merge release branch to master"
 
 on: 
-  pull_request:
-    branches: 
-      - master
-    types:
-      - opened
-      - labeled
-
+  push
 jobs:
   merge-to-master:
     name: Merge release branch
