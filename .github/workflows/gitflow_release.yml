@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge release/${{ github.event.inputs.version }} --delete --merge
+          gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
   release:
     name: Publish new release
     needs: merge-to-master
