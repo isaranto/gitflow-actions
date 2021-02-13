@@ -60,6 +60,7 @@ jobs:
           gh pr merge release/${{ github.event.inputs.version }} --merge
   release:
     name: Publish new release
+    needs: merge-to-master
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true # only merged pull requests must trigger this job
     steps:
