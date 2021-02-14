@@ -60,10 +60,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
-          gh pr review release/2.1.0 --approve
+          gh pr review release/${{ env.RELEASE_VERSION }} --approve
       
       - name: Merge pull request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge release/2.1.0 --delete-branch --merge
+          gh pr merge release/${{ env.RELEASE_VERSION }} --delete-branch --merge
