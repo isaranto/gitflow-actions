@@ -44,18 +44,7 @@ jobs:
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "${{ env.RELEASE_VERSION }}" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }} 
-          
-  open-pr:
-    name: "Approve PR"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "GitHub actions"
-          git config user.email noreply@github.com
-          
+
       - name: Approve PR
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
