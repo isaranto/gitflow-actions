@@ -1,11 +1,6 @@
 name: Create minor release
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'The version you want to release.'
-        required: true
-        
+on: workflow_dispatch
+
 jobs:
   draft-new-release:
     name: "Create release branch + Bump Version"
