@@ -19,7 +19,7 @@ jobs:
       - name: Bump version in package.json
         run: |
           yarn version --minor --no-git-tag-version
-          VERSION=$(jq -r .version package.json)
+          VERSION=$(jq -r .version version.json)
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
       
       - name: Create release branch
@@ -28,7 +28,7 @@ jobs:
       - name: Commit changelog and manifest files
         id: make-commit
         run: |
-          git add package.json
+          git add version.json
           git commit --message "Prepare release ${{ github.event.inputs.version }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       
@@ -68,9 +68,9 @@ jobs:
         with:
           ref: master
       
-      - name: Extract version from package.json
+      - name: Extract version from version.json
         run: |
-          VERSION=$(jq -r .version package.json)
+          VERSION=$(jq -r .version version.json)
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
          
       - name: Create Release
