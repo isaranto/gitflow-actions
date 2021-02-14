@@ -59,7 +59,7 @@ jobs:
       
       - name: Merge pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           gh pr review master --approve
           gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
