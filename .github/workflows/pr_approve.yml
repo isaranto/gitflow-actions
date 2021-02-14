@@ -54,5 +54,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr review --approve
+          gh pr review master --approve
           gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
