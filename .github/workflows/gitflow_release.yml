@@ -1,4 +1,4 @@
-name: Create gitflow Release
+name: Create minor release
 on:
   workflow_dispatch:
     inputs:
@@ -26,7 +26,7 @@ jobs:
       # Fortunately, yarn has a built-in command for doing this!
       - name: Bump version in package.json
         run: |
-          yarn version --new-version ${{ github.event.inputs.version }} --no-git-tag-version
+          yarn version minor --no-git-tag-version
       
       - name: Commit changelog and manifest files
         id: make-commit
@@ -46,24 +46,24 @@ jobs:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}. \n \
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
-          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ github.event.inputs.version }}         
-  
-  merge-to-master:
-    name: "Merge PR release -> master"
-    needs: draft-new-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        
-      - name: Merge pull request
+          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ github.event.inputs.version }}
+      
+      - name: Approve PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          gh pr review release/${{ env.RELEASE_VERSION }} --approve
+      
+      - name: Merge release -> master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr review --approve
-          gh pr merge release/${{ github.event.inputs.version }} --delete-branch --merge
+          gh pr merge release/${{ env.RELEASE_VERSION }} --delete-branch --merge
+  
+
   release:
     name: Publish new release
-    needs: merge-to-master
+    needs: draft-new-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
