@@ -1,4 +1,4 @@
-name: Create gitflow Release
+name: Open - Approve PR
 on: workflow_dispatch
 
 jobs:
