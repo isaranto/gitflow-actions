@@ -17,9 +17,9 @@ jobs:
         with:
           ref: master
       
-      - name: Extract version from package.json
+      - name: Extract version from version.json
         run: |
-          VERSION=$(jq -r .version package.json)
+          VERSION=$(jq -r .version version.json)
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
          
       - name: Create Release
