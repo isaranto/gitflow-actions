@@ -8,9 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Create release branch
-        run: git checkout -b release/${{ github.event.inputs.version }}
-
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
       - name: Initialize mandatory git config
@@ -22,6 +19,11 @@ jobs:
       - name: Bump version in package.json
         run: |
           yarn version minor --no-git-tag-version
+          VERSION=$(jq -r .version package.json)
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Create release branch
+        run: git checkout -b release/${{ env.RELEASE_VERSION }}
       
       - name: Commit changelog and manifest files
         id: make-commit
@@ -31,7 +33,7 @@ jobs:
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       
       - name: Push new branch
-        run: git push origin release/${{ github.event.inputs.version }}
+        run: git push origin release/${{ env.RELEASE_VERSION }}
       
       - name: Create pull request release -> master
         env:
@@ -41,7 +43,7 @@ jobs:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}. \n \
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
-          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ github.event.inputs.version }}
+          gh pr create --title "Release ${{ github.event.inputs.version }}" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }}
       
       - name: Approve PR
         env:
