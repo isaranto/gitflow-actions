@@ -14,9 +14,8 @@ jobs:
     if: github.event.pull_request.merged == true # only merged pull requests must trigger this job
     steps:
       - uses: actions/checkout@v2
-
-      - name: Create release branch
-        run: git checkout master
+        with:
+          ref: master
       
       - name: Extract version from package.json
         run: |
