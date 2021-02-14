@@ -44,7 +44,7 @@ jobs:
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. \n \
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "${{ env.RELEASE_VERSION }}" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }} 
-      
+
       - name: Approve PR
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -56,6 +56,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr merge release/${{ env.RELEASE_VERSION }} --delete-branch --merge
-
-          
-      
