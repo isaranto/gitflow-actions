@@ -45,7 +45,14 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} master -> develop" --body "$body" --label gitflow --base develop --head master
       
+      - name: Approve PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          gh pr review master --approve
+      
       - name: Merge master in develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge master --merge
+        run: |
+          gh pr merge master --merge
