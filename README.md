@@ -7,6 +7,7 @@ It all starts with a version defined in the manifest file `package.json`
 <img src="https://wac-cdn.atlassian.com/dam/jcr:61ccc620-5249-4338-be66-94d563f2843c/05%20(2).svg?cdnVersion=1454" alt="gitflow" width="500"/>
 
 For more information regarding the GitFlow branching model visit the following links:
+
 https://nvie.com/posts/a-successful-git-branching-model/
 
 https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
