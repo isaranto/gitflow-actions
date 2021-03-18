@@ -1,0 +1,17 @@
+name: "Dummy build commit action"
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+
+jobs:
+  checkout-commit:
+    name: "CI checks"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          sleep 30
