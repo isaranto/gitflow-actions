@@ -1,4 +1,4 @@
-name: "Dymmu build commit action"
+name: "Dummy build commit action"
 on:
   push:
   pull_request:
