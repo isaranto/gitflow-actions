@@ -48,14 +48,22 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} release -> master" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }}
       
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        id: wait-for-build
+#       - name: Wait for build to succeed
+#         uses: fountainhead/action-wait-for-check@v1.0.0
+#         id: wait-for-build
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           checkName: "CI checks"
+#           timeoutSeconds: 900
+#           intervalSeconds: 30
+      - name: 'Wait for status checks'
+        id: waitforstatuschecks
+        uses: "WyriHaximus/github-action-wait-for-status@v2"
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "CI checks"
-          timeoutSeconds: 900
-          intervalSeconds: 30
+          ignoreActions: draft-new-release
+          checkInterval: 40
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           
       
       - name: Approve PR
