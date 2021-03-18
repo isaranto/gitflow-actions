@@ -27,6 +27,8 @@ jobs:
       
       - name: Commit changelog and manifest files
         id: make-commit
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           git add package.json
           git commit --message "Prepare release ${{ env.RELEASE_VERSION }}"
@@ -37,7 +39,7 @@ jobs:
       
       - name: Create pull request release -> master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           nl=$'\n'
           body="Hi @${{ github.actor }}! ${nl}This PR was created in response to a manual trigger of the release workflow here: \
@@ -46,18 +48,23 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} release -> master" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }}
       
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        id: wait-for-build
+#       - name: Wait for build to succeed
+#         uses: fountainhead/action-wait-for-check@v1.0.0
+#         id: wait-for-build
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           checkName: "CI checks"
+#           timeoutSeconds: 900
+#           intervalSeconds: 30
+      - uses: jitterbit/await-check-suites@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "CI checks"
-          timeoutSeconds: 900
-          intervalSeconds: 30
+          ref: release/${{ env.RELEASE_VERSION }}
+          timeoutSeconds: 90
+
       
       - name: Approve PR
         env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr review release/${{ env.RELEASE_VERSION }} --approve
       
