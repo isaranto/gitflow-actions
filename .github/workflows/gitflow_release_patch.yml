@@ -59,7 +59,7 @@ jobs:
       - uses: jitterbit/await-check-suites@v1
         with:
           ref: release/${{ env.RELEASE_VERSION }}
-          timeoutSeconds: 60
+          timeoutSeconds: 90
 
       
       - name: Approve PR
