@@ -51,9 +51,11 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ steps.make-commit.outputs.commit }}.
           checkName: "CI checks"
           timeoutSeconds: 900
           intervalSeconds: 30
+          
       
       - name: Approve PR
         env:
