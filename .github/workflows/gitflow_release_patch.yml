@@ -37,7 +37,7 @@ jobs:
       
       - name: Create pull request release -> master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           nl=$'\n'
           body="Hi @${{ github.actor }}! ${nl}This PR was created in response to a manual trigger of the release workflow here: \
@@ -51,7 +51,6 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ steps.make-commit.outputs.commit }}.
           checkName: "CI checks"
           timeoutSeconds: 900
           intervalSeconds: 30
