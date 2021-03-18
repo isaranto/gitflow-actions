@@ -56,15 +56,11 @@ jobs:
 #           checkName: "CI checks"
 #           timeoutSeconds: 900
 #           intervalSeconds: 30
-      - name: 'Wait for status checks'
-        id: waitforstatuschecks
-        uses: "WyriHaximus/github-action-wait-for-status@v2"
+      - uses: jitterbit/await-check-suites@v1
         with:
-          ignoreActions: draft-new-release
-          checkInterval: 40
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          
+          ref: release/${{ env.RELEASE_VERSION }}
+          timeoutSeconds: 60
+
       
       - name: Approve PR
         env:
