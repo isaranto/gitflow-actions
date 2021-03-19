@@ -67,13 +67,6 @@ jobs:
         with:
           ref: release/${{ env.RELEASE_VERSION }}
           timeoutSeconds: 90
-
-      
-      - name: Approve PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr review release/${{ env.RELEASE_VERSION }} --approve
       
       - name: Merge release -> master
         env:
@@ -119,27 +112,24 @@ jobs:
           Merging this PR will update develop to include the latest changes from the master branch"
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} master -> develop" --body "$body" --label gitflow --base develop --head master
         
-      - uses: jitterbit/await-check-suites@v1
-        with:
-          ref: release/${{ env.RELEASE_VERSION }}
-          timeoutSeconds: 90
-      
-      
-  merge-to-develop:
-    name: "Merge master -> develop"
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      
       - name: Approve PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr review master --approve
-
+      
+      - uses: jitterbit/await-check-suites@v1
+        with:
+          ref: release/${{ env.RELEASE_VERSION }}
+          timeoutSeconds: 90       
+      
       - name: Merge master in develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr merge master --merge
+
+      
+
+      
+      
