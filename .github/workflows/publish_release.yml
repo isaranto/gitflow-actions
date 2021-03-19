@@ -35,7 +35,7 @@ jobs:
       
       - name: Create pull request master -> develop
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           git checkout master
           body="Hi @${{ github.actor }}! \n This PR was created in response to a manual trigger of the release workflow here:\
@@ -44,6 +44,11 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} master -> develop" --body "$body" --label gitflow --base develop --head master
       
+      - uses: jitterbit/await-check-suites@v1
+        with:
+          ref: release/${{ env.RELEASE_VERSION }}
+          timeoutSeconds: 90
+          
       - name: Approve PR
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
