@@ -48,6 +48,13 @@ jobs:
           Merging this PR will create a GitHub release and upload any assets that are created as part of the release build."
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} release -> master" --body "$body" --label release --base master --head release/${{ env.RELEASE_VERSION }}
       
+      
+      - name: Approve PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review release/${{ env.RELEASE_VERSION }} --approve
+          
 #       - name: Wait for build to succeed
 #         uses: fountainhead/action-wait-for-check@v1.0.0
 #         id: wait-for-build
