@@ -120,7 +120,7 @@ jobs:
       
       - uses: jitterbit/await-check-suites@v1
         with:
-          ref: release/${{ env.RELEASE_VERSION }}
+          ref: master
           timeoutSeconds: 90       
       
       - name: Merge master in develop
