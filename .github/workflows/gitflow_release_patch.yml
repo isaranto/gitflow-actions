@@ -102,7 +102,7 @@ jobs:
       
       - name: Create pull request master -> develop
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           nl=$'\n'
           git checkout master
@@ -111,6 +111,11 @@ jobs:
           I've updated the changelog and bumped the versions in the manifest files in this commit: ${{ steps.make-commit.outputs.commit }}. ${nl} \
           Merging this PR will update develop to include the latest changes from the master branch"
           gh pr create --title "Release ${{ env.RELEASE_VERSION }} master -> develop" --body "$body" --label gitflow --base develop --head master
+        
+      - uses: jitterbit/await-check-suites@v1
+        with:
+          ref: release/${{ env.RELEASE_VERSION }}
+          timeoutSeconds: 90
       
       
   merge-to-develop:
@@ -122,7 +127,7 @@ jobs:
       
       - name: Approve PR
         env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr review master --approve
 
