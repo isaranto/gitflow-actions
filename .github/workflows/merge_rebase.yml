@@ -36,5 +36,5 @@ jobs:
       - name: Merge PR
         if: github.event.issue.pull_request
         run: |
-          git merge develop
+          git merge refs/heads/develop
           git push origin {{ fromJSON(steps.get-pr.outputs.result).head.sha }}   
