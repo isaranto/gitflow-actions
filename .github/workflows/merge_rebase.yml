@@ -35,6 +35,8 @@ jobs:
 
       - name: Merge PR
         if: github.event.issue.pull_request
+        env:
+          BASE_BRANCH: ${{ github.event.issue.pull_request.head.ref }}
         run: |
           git merge origin/develop
-          git push origin ${{ github.event.pull_request.head.ref }}
+          git push origin ${BASE_BRANCH}
