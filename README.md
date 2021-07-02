@@ -10,7 +10,8 @@ To use this you need:
 There are many ways to go with version bumping. For this one I chose to use the [yarn package manager](https://yarnpkg.com/). Three identical GitHub Actions are created, each of them releases the corresponding version type:
 - Major 
 - Minor
-- Patch
+- Patch\
+- \\
 
 In the event when merging to the master branch fails (either we have merge conflicts or CI fails for some reason) we manually fix it. Afterwards there is a second Action that is triggered upon merging in the master branch picks up from there to do the rest.
 
