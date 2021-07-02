@@ -36,7 +36,5 @@ jobs:
       - name: Merge PR
         if: github.event.issue.pull_request
         run: |
-          # Merge PR so that we can run tests on top of that
-          git checkout ${{ github.head_ref }}
           git merge develop
-          git push origin      
+          git push origin {{ fromJSON(steps.get-pr.outputs.result).head.sha }}   
