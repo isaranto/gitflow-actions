@@ -37,4 +37,4 @@ jobs:
         if: github.event.issue.pull_request
         run: |
           git merge origin/develop
-          git push origin "${{ fromJSON(steps.get-pr.outputs.result).head.sha }}" 
+          git push origin ${{ github.event.pull_request.head.ref }}
