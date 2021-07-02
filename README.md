@@ -7,7 +7,7 @@ It all starts with a version defined in the manifest file `package.json`.
 To use this you need:
 - A GitHub account/bot that will approve the Pull Requests created by the actions. Add the Personal Access Token (PAT) for this account as a secret in the settings of your repository. (In this example it is `BOT_TOKEN`.
 
-There are many ways to go with version bumping. For this one I chose to use the [yarn package manager](https://yarnpkg.com/). Three identical GitHub Actions are created, each of them releases the corresponding version type:
+There are many ways to go with versadfsdafsion bumping. For this one I chose to use the [yarn package manager](https://yarnpkg.com/). Three identical GitHub Actions are created, each of them releases the corresponding version type:
 - Major 
 - Minor
 - Patch
