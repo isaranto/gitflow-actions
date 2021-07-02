@@ -2,8 +2,8 @@
 **Your Description Here**
 
 ## List of changes made
-- <change #1>
-- <change #2>
+- [ ] <change #1>
+- [ ] <change #2>
 
 
 ## Jira ticket
@@ -11,10 +11,6 @@
 ​
 ## Related PRs - Issues
 > **NOTE** Please mention any PRs that are connected or related to the current one.
-
-## Checklist
-- [ ] Tests are implemented
-- [ ] Documentation is updated
 
 ​
 ## Special Notes
