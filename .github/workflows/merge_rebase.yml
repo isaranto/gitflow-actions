@@ -34,7 +34,7 @@ jobs:
           git config user.email noreply@github.com
 
       - name: Merge PR
-        if: github.event_name == 'pull_request'
+        if: github.event.issue.pull_request
         run: |
           # Merge PR so that we can run tests on top of that
           git checkout ${{ github.head_ref }}
