@@ -1,0 +1,42 @@
+name: "Build commit"
+on: issue_comment
+
+jobs:
+  merge-rebase:
+    if: ${{ github.event.issue.pull_request && startsWith( '/merge develop', github.event.comment.body ) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        id: get-pr
+        with:
+          script: |
+            const request = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            }
+            core.info(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
+            try {
+              const result = await github.pulls.get(request)
+              return result.data
+            } catch (err) {
+              core.setFailed(`Request failed with error ${err}`)
+            }
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ fromJSON(steps.get-pr.outputs.result).head.sha }}
+          fetch-depth: 0
+    
+      - name: Initialize mandatory git config
+        run: |
+          git config user.name "GitHub actions"
+          git config user.email noreply@github.com
+
+      - name: Merge PR
+        if: github.event_name == 'pull_request'
+        run: |
+          # Merge PR so that we can run tests on top of that
+          git checkout ${{ github.head_ref }}
+          git merge develop
+          git push origin      
