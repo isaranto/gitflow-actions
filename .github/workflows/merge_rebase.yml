@@ -32,11 +32,18 @@ jobs:
         run: |
           git config user.name "GitHub actions"
           git config user.email noreply@github.com
+          
+      - name: Get Branch name
+        id: branchName
+        run: |
+          echo ::set-output name=branch::$(echo $PR_COMMENT | cut -d "[" -f2 | cut -d "]" -f1)
+        env:
+          PR_COMMENT: ${{ github.event.comment.body }}
 
       - name: Merge PR
         if: github.event.issue.pull_request
         env:
-          BASE_BRANCH: ${{ github.event.issue.pull_request.head.ref }}
+          BASE_BRANCH: ${{ steps.branchName.outputs.branch }}
         run: |
           git merge origin/develop
           git push origin ${BASE_BRANCH}
