@@ -39,4 +39,4 @@ jobs:
           BRANCH_NAME: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
         run: |
           git merge origin/develop
-          git push origin ${BRANCH_NAME}
+          git push origin origin${BRANCH_NAME}
