@@ -31,6 +31,8 @@ jobs:
       - uses: fregante/setup-git-token@v1
         with:
           token: ${{ secrets.BOT_TOKEN }}
+          name: "isaranto-bot "
+          email: prcg1@thebeat.co
     
 #       - name: Initialize mandatory git config
 #         run: |
