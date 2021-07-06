@@ -27,12 +27,16 @@ jobs:
         with:
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
           fetch-depth: 0
+          
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
     
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "GitHub actions"
-          git config user.email noreply@github.com
-          git config --global push.default current
+#       - name: Initialize mandatory git config
+#         run: |
+#           git config user.name "GitHub actions"
+#           git config user.email noreply@github.com
+#           git config --global push.default current
 
       - name: Merge PR
         if: github.event.issue.pull_request
