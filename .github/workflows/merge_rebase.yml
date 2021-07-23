@@ -27,7 +27,6 @@ jobs:
         with:
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
           fetch-depth: 0
-          token: ${{ secrets.BOT_TOKEN }}
           
       - uses: fregante/setup-git-token@v1
         with:
@@ -45,7 +44,7 @@ jobs:
         if: github.event.issue.pull_request
         env:
           BRANCH_NAME: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
-          token: ${{ secrets.BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git merge origin/develop
           git push origin
