@@ -44,8 +44,8 @@ jobs:
         if: github.event.issue.pull_request
         env:
           BRANCH_NAME: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           git merge --no-ff -m "Merge develop into this branch" origin/develop
           git commit --allow-empty -m "Trigger notification"
-          git push origin
+          git push origin ${{ env.BRANCH_NAME }}
