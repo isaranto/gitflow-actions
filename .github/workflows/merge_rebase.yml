@@ -28,11 +28,11 @@ jobs:
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
           fetch-depth: 0
           
-#       - uses: fregante/setup-git-token@v1
-#         with:
-#           token: ${{ secrets.BOT_TOKEN }}
-#           name: "isaranto-bot "
-#           email: prcg1@thebeat.co
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          name: "isaranto-bot "
+          email: prcg1@thebeat.co
     
 #       - name: Initialize mandatory git config
 #         run: |
